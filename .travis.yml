@@ -1,0 +1,18 @@
+language: python
+sudo: required
+dist: trusty
+services:
+ - docker
+script:
+ - make build
+ - make test
+after_success:
+ - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+ - if [ "${TRAVIS_PULL_REQUEST_BRANCH}" ]; then
+    DOCKER_PUBLISH_TAG="${TRAVIS_PULL_REQUEST_BRANCH}" make publish;
+   elif [ "${TRAVIS_TAG}" ]; then
+    DOCKER_PUBLISH_TAG="${TRAVIS_TAG}" make publish;
+    DOCKER_PUBLISH_TAG=latest make publish;
+   else
+    DOCKER_PUBLISH_TAG="${TRAVIS_BRANCH}" make publish;
+   fi

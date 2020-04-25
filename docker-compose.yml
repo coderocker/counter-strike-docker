@@ -1,0 +1,23 @@
+version: "3"
+services:
+  cs-server:
+    build: ./
+    ports:
+      - "26900:26900/udp"
+      - "27020:27020/udp"
+      - "27015:27015/udp"
+      - "27015:27015"
+    environment:
+      MAXPLAYERS: 32
+      START_MAP: de_dust2
+      SERVER_NAME: "HHAATTT"
+      START_MONEY: 1600
+      BUY_TIME: 0.5
+      FRIENDLY_FIRE: 1
+      SERVER_PASSWORD: test
+      RCON_PASSWORD: test
+    networks:
+      - cs1_6
+
+networks:
+  cs1_6:
